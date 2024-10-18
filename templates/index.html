@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HVAC Load Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>HVAC Load Calculator</h1>
+        <form action="/calculate" method="POST">
+            <label for="building_size">Building Size (sq. ft.):</label>
+            <input type="number" id="building_size" name="building_size" required><br>
+
+            <label for="insulation_r_value">Insulation R-Value:</label>
+            <input type="number" id="insulation_r_value" name="insulation_r_value" required><br>
+
+            <label for="climate_zone_factor">Climate Zone Factor:</label>
+            <input type="number" id="climate_zone_factor" name="climate_zone_factor" step="0.1" required><br>
+
+            <label for="num_occupants">Number of Occupants:</label>
+            <input type="number" id="num_occupants" name="num_occupants" required><br>
+
+            <button type="submit">Calculate HVAC Load</button>
+        </form>
+
+        {% if total_load %}
+        <div class="result">
+            <h2>Total HVAC Load: {{ total_load | round(2) }} BTU/h</h2>
+            {% if tips %}
+            <h3>Energy Saving Tips:</h3>
+            <ul>
+                {% for tip in tips %}
+                <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
